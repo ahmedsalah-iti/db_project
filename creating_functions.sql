@@ -1,3 +1,5 @@
+-- SOURCE /home/as/Desktop/db_project/creating_queries.sql; SOURCE /home/as/Desktop/db_project/creating_functions.sql;
+
 DELIMITER //
 create FUNCTION isUserIdExists(userId int) RETURNS BOOLEAN
 DETERMINISTIC
@@ -141,8 +143,8 @@ create PROCEDURE addNewUser(
     IN hashedPassword varchar(255)
 )
 BEGIN
--- roleId = 0 => unverified member/customer
-    DECLARE roleId int DEFAULT 0;
+-- roleId = 1 => unverified member/customer
+    DECLARE roleId int DEFAULT 1;
     if NOT isRoleExists(roleId) then
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error 1001: Website Roles not init yet.';
     end if;
