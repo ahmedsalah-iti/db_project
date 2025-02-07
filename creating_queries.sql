@@ -12,7 +12,7 @@ CREATE TABLE Role (
     id INT AUTO_INCREMENT primary key,
     name VARCHAR(100) UNIQUE NOT NULL
 );
-CREATE table Prodile_Pic(
+CREATE table Profile_Pic(
     id INT AUTO_INCREMENT primary key,
     url VARCHAR(255) not null,
     user_id int not null,
@@ -35,7 +35,7 @@ CREATE TABLE User(
     emaiil VARCHAR(255) unique not null,
     phone VARCHAR(11) unique not null,
     password VARCHAR(255) not null,
-    room_id int not null,
+    room_id int,
     profile_pic_id int ,
     role_id int not null,
     wallet_balance decimal(10,2) DEFAULT 0.00  not null,
@@ -85,3 +85,30 @@ CREATE TABLE Payment(
     status ENUM('pending','completed','failed') DEFAULT 'pending' not null,
     made_at DATETIME DEFAULT CURRENT_TIMESTAMP not null
 );
+
+------------- Adding The Foreign Keys -------------
+
+-- user's fks
+ALTER TABLE User add CONSTRAINT fk_user_room_id
+FOREIGN KEY (room_id) REFERENCES room(id)
+on DELETE set null;
+
+ALTER TABLE User add CONSTRAINT fk_user_profile_pic_id
+FOREIGN key (profile_pic_id) REFERENCES profiel_pic(id);
+on DELETE set null;
+
+ALTER TABLE User add CONSTRAINT fk_user_role_id
+FOREIGN KEY (role_id) REFERENCES role(id)
+on DELETE set 0;
+
+-- profile_pic's fks
+ALTER TABLE Profile_Pic add CONSTRAINT fk_profile_pic_user_id
+FOREIGN KEY (user_id) REFERENCES user(id)
+on DELETE CASCADE;
+
+-- wallet_transaction's fks
+alter TABLE Wallet_Transaction add CONSTRAINT fk_wallet_transaction_user_id
+FOREIGN KEY (user_id) REFERENCES user(id)
+on DELETE CASCADE;
+
+-- order's fks
