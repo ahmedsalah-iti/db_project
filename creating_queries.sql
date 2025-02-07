@@ -32,7 +32,7 @@ CREATE TABLE User(
     first_name VARCHAR(50) not null,
     last_name VARCHAR(50) not null ,
     username VARCHAR(50) unique not null,
-    emaiil VARCHAR(255) unique not null,
+    email VARCHAR(255) unique not null,
     phone VARCHAR(11) unique not null,
     password VARCHAR(255) not null,
     room_id int,
@@ -141,3 +141,11 @@ on DELETE set null;
 ALTER table Payment add CONSTRAINT fk_payment_order_id
 FOREIGN KEY (order_id) REFERENCES `Order`(id)
 on DELETE set null;
+
+-- Adding Indexes
+-- for fast login
+CREATE INDEX idx_username on User(username);
+CREATE INDEX idx_email on User(email);
+
+-- for fast product search
+CREATE INDEX idx_product_name on Product(name);
