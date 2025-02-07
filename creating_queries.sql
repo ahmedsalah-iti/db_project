@@ -1,6 +1,7 @@
 -- SOURCE /home/as/Desktop/db_project/creating_queries.sql;
 drop database if exists cafeteria;
 create database cafeteria;
+use cafeteria;
 
 CREATE TABLE Room (
     id int AUTO_INCREMENT primary key,
