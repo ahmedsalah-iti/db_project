@@ -48,6 +48,7 @@ CREATE TABLE Wallet_Transaction(
     amount decimal(10,2) not null,
     balance_before decimal(10,2) not null,
     balance_after decimal(10,2) not null,
+    status ENUM('pending','completed','failed') DEFAULT 'pending' NOT NULL,
     made_at DATETIME DEFAULT CURRENT_TIMESTAMP not null
 );
 CREATE table Product (

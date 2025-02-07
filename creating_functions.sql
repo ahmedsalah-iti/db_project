@@ -181,3 +181,42 @@ BEGIN
 END //
 DELIMITER ;
 
+DELIMITER //
+create FUNCTION addUserBalance(userId int,amount decimal(10,2)) RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+    if amount <= 0 then
+        RETURN FALSE;
+    end if;
+
+    if isUserIdExists(userId) THEN
+        UPDATE User SET wallet_balance = wallet_balance + amount where id = userId;
+        RETURN TRUE;
+    else
+        return FALSE;
+    end if;
+END //
+DELIMITER ;
+
+DELIMITER //
+create FUNCTION subUserBalance(userId int, amount decimal(10,2)) RETURNS BOOLEAN
+DETERMINISTIC
+BEGIN
+    DECLARE cur_user_balance decimal(10,2) DEFAULT 0.00;
+    if amount <= 0.00 then
+        RETURN FALSE;
+    end if;
+
+    if isUserIdExists(userId) THEN
+        select wallet_balance into cur_user_balance from User WHERE id = userId;
+        if (cur_user_balance - amount) >= 0.00 then
+            update User set wallet_balance = wallet_balance - amount where id = userId;
+        else
+            RETURN FALSE;
+        end if;
+
+    else
+        RETURN FALSE;
+    end if;
+END //
+DELIMITER ;
